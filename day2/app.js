@@ -14,7 +14,6 @@ app.all('/', function (req, res)
 
 
 app.use('/todos', require('./todo/routes'))
-app.use('/todo-items', require('./todo/routes'))
 
 
 app.listen(8062, function ()
