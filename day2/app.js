@@ -2,8 +2,6 @@ var express = require('express')
 var morgan = require('morgan')
 var skipper = require('skipper')
 
-var TodoController = require('./todo/controller')
-
 var app = express()
 
 app.use(morgan('dev'))
@@ -15,12 +13,8 @@ app.all('/', function (req, res)
 })
 
 
-app.get('/todos', TodoController.index)
-app.post('/todos', TodoController.create)
-
-app.get('/todos/:id', TodoController.show)
-app.put('/todos/:id', TodoController.update)
-app.delete('/todos/:id', TodoController.delete)
+app.use('/todos', require('./todo/routes'))
+app.use('/todo-items', require('./todo/routes'))
 
 
 app.listen(8062, function ()
