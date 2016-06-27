@@ -18,7 +18,7 @@ app.get('/todos/new', function (req, res)
 
 app.get('/todos', function (req, res)
 {
-	res.render('todos.index.pug', { todos: todos });
+	res.render('todos.index.pug', { list: todos });
 });
 
 app.post('/todos', function (req, res)
