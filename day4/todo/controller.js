@@ -33,47 +33,46 @@ function deleteTodo(req, res)
 	{
 		item.remove(function (err)
 		{
-			if (err)
-			{
-				reportError(err, res)
-			}
-			else
-			{
-				res.status(204).end()
-			}
+			if (err) return reportError(err, res)
+
+			res.status(204).end()
 		})
 	})
 }
 
 function indexTodo(req, res)
 {
-	var collection = Todo.getAll()
-	res.json(collection)
+	Todo.find(function (err, collection)
+	{
+		if (err) return reportError(err, res)
+
+		res.json(collection)
+	})
 }
 
 function showTodo(req, res)
 {
-	var item = findTodo(req, res)
-
-	if (item)
+	findTodo(req, res, function (item)
 	{
 		res.json(item)
-	}
+	})
 }
 
 function updateTodo(req, res)
 {
-	var item = findTodo(req, res)
-
-	if (item)
+	findTodo(req, res, function (item)
 	{
 		item.title = req.body.title
 		item.description = req.body.description
 		item.completed = req.body.completed
 
-		Todo.saveTodo(item)
-		res.json(item)
-	}
+		item.save(function (err)
+		{
+			if (err) return reportError(err, res)
+
+			res.json(item)
+		})
+	})
 }
 
 /**
@@ -84,11 +83,9 @@ function findTodo(req, res, success)
 	var id = req.params.id
 	Todo.findById(id, function (err, item)
 	{
-		if (err)
-		{
-			reportError(err, res)
-		}
-		else if (!item)
+		if (err) return reportError(err, res)
+
+		if (!item)
 		{
 			res.status(404).json({
 				error: 'Could not find item with that id'
