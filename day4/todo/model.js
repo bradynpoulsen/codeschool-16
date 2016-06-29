@@ -1,29 +1,17 @@
 var mongoose = require('mongoose')
 
 var TodoSchema = new mongoose.Schema({
-	title: String,
-	description: String,
-	completed: Boolean,
-	createdAt: Date,
+	title: { type: String, required: true, unique: true, dropDups: true },
+	description: { type: String, required: true },
+	completed: { type: Boolean, default: false },
+	createdAt: { type: Date, default: Date.now },
 	updatedAt: Date
 })
 
+TodoSchema.pre('save', function (done)
+{
+	this.updatedAt = new Date()
+	done()
+})
+
 module.exports = mongoose.model('Todo', TodoSchema)
-
-// var todo = {
-// 	title: title,
-// 	description: description,
-// 	completed: completed,
-
-// 	id: id,
-// 	createdAt: createdAt,
-// 	updatedAt: updatedAt
-// }
-
-// module.exports = {
-// 	createTodo: createTodo,
-// 	deleteTodo: deleteTodoItem,
-// 	getAll: getAllItems,
-// 	getById: getItemById,
-// 	saveTodo: saveTodo
-// }

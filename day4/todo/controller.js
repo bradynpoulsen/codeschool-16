@@ -100,13 +100,22 @@ function findTodo(req, res, success)
 
 function reportError(err, res)
 {
-	res.status(500).json({
-		error: err.toString()
-	})
+	if (err.name === 'ValidationError')
+	{
+		res.status(422).json({
+			error: err.toString()
+		})
+	}
+	else if (err.name === 'MongoError' && err.code === 11000)
+	{
+		res.status(409).json({
+			error: err.message
+		})
+	}
+	else
+	{
+		res.status(500).json({
+			error: err.toString()
+		})
+	}
 }
-
-
-
-
-
-

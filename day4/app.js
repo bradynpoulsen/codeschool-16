@@ -5,7 +5,7 @@ var skipper = require('skipper')
 
 // Configure Mongoose
 
-mongoose.connect('mongodb://mongodb.cs.dixie.edu/AugustinusHubertusTodorMcCaig')
+mongoose.connect('mongodb://mongodb.cs.dixie.edu/SudoBashBash')
 
 // Configure Express
 
