@@ -8,6 +8,8 @@ var skipper = require('skipper')
 
 mongoose.connect('mongodb://mongodb.cs.dixie.edu/SudoBashBash')
 
+require('./config/passport')
+
 // Configure Express
 
 var app = express()
@@ -17,6 +19,7 @@ app.use(passport.initialize())
 app.use(skipper())
 
 app.use('/todos', require('./todo/routes'))
+app.use('/users', require('./user/routes'))
 
 app.all('/', function (req, res)
 {

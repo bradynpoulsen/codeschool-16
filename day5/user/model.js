@@ -17,6 +17,13 @@ UserSchema
 	})
 
 
+UserSchema.methods.toJSON = function()
+{
+	var user = this.toObject()
+	delete user.passwordHash
+	return user
+}
+
 UserSchema.methods.verifyPassword = function (plainPassword)
 {
 	return bcrypt.compareSync(plainPassword, this.passwordHash)

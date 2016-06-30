@@ -1,11 +1,11 @@
 var passport = require('passport')
-var LocalStrategy = require('passport-local').Strategy
+var BasicStrategy = require('passport-http').BasicStrategy
 var User = require('../user/model')
 
-passport.use(new LocalStrategy(
+passport.use(new BasicStrategy(
 	function (email, password, next)
 	{
-		User.findByEmail(email, function (err, user)
+		User.findOne({ email: email }, function (err, user)
 		{
 			if (err) return next(err)
 			if (!user) return next(null, false)
